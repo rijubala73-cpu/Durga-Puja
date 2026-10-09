@@ -8,22 +8,29 @@ const calendarOverlay = document.getElementById("calendarOverlay");
 const videoOverlay = document.getElementById("videoOverlay");
 const greetingOverlay = document.getElementById("greetingOverlay");
 
-// বাটন ক্লিকে সাউন্ডের পারমিশন আনলক হবে এবং সমস্ত প্রসেস শুরু হবে
+// পেজ লোড হলে স্বয়ংক্রিয়ভাবে কিছুই শুরু হবে না
+document.addEventListener("DOMContentLoaded", () => {
+    // শুধুমাত্র ইউজারের বাটন ক্লিকে সব শুরু হবে
+});
+
+// "আমন্ত্রণপত্র খুলতে ক্লিক করুন" বাটনে চাপ দিলে এই ফাংশনটি কল হবে
 function initExperience() {
     const startBtn = document.getElementById("startBtn");
-    if (startBtn) startBtn.style.display = "none";
+    if (startBtn) {
+        startBtn.style.display = "none"; // বাটনটি লুকিয়ে ফেলা হলো
+    }
 
-    // অডিও ও ভিডিও সাউন্ড পারমিশন আনলক
+    // ১. সাউন্ড ও ভিডিও প্লে করার অনুমতি (User Gesture unlock)
     flipSound.play().then(() => {
         flipSound.pause();
         flipSound.currentTime = 0;
-    }).catch(e => console.log("Audio unlock:", e));
+    }).catch(e => console.log("Audio permission unlocked"));
 
-    // ক্যালেন্ডার পাতার অ্যানিমেশন ও শব্দ চালু
+    // ২. এবার ক্যালেন্ডারের পাতা উল্টানো এবং সাউন্ড শুরু হবে
     startCalendarAnimation();
 }
 
-// ১. ক্যালেন্ডার পাতার অ্যানিমেশন ও উল্টানোর শব্দ
+// ১. ক্যালেন্ডার পাতার অ্যানিমেশন ও উল্টানোর শব্দ (১ থেকে ১০ অক্টোবর)
 function startCalendarAnimation() {
     let day = 1;
     const targetDay = 10;
@@ -43,6 +50,7 @@ function startCalendarAnimation() {
             calendarDayEl.textContent = day;
             calendarCard.classList.remove("flip");
 
+            // ১০ তারিখে পৌছালে ক্যালেন্ডার বন্ধ হয়ে ভিডিও শুরু হবে
             if (day >= targetDay) {
                 clearInterval(interval);
                 setTimeout(() => {
@@ -54,18 +62,19 @@ function startCalendarAnimation() {
     }, 400);
 }
 
-// ২. ভিডিও প্লে (ভিডিওর আসল সাউন্ড সহ)
+// ২. ভিডিও প্লে (ভিডিওর নিজস্ব সাউন্ড সহ)
 function startVideoPhase() {
     videoOverlay.classList.remove("hidden");
-    introVideo.muted = false; // সাউন্ড অন
+    introVideo.muted = false; // ভিডিওর সাউন্ড চালু
     introVideo.currentTime = 0;
 
     introVideo.play().catch((err) => {
-        console.log("Autoplay issue:", err);
+        console.log("Autoplay blocked, running muted:", err);
         introVideo.muted = true;
         introVideo.play();
     });
 
+    // ভিডিও শেষ হলে পরবর্তী ধাপে যাবে
     introVideo.onended = () => {
         endVideoPhase();
     };
@@ -76,21 +85,21 @@ function endVideoPhase() {
     startGreetingPhase();
 }
 
-// ৩. শুভেচ্ছা, বেলুন, আতশবাজি ও ব্যাকগ্রাউন্ড মিউজিক
+// ৩. শুভেচ্ছা বার্তা, বেলুন, আতশবাজি ও ব্যাকগ্রাউন্ড মিউজিক
 function startGreetingPhase() {
     greetingOverlay.classList.remove("hidden");
     
-    // ব্যাকগ্রাউন্ড গান চালু (এখন আর থামবে না)
+    // ব্যাকগ্রাউন্ড মিউজিক চালু (যা আর থামবে না)
     try {
         bgMusic.volume = 0.8;
         bgMusic.play();
     } catch(e) {}
 
-    // এনিমেশনসমূহ
+    // আতশবাজি ও বেলুন এনিমেশন
     createBalloons();
     initFireworks();
 
-    // ৪.৫ সেকেন্ড পর গ্রিটিং উঠে যাবে এবং মূল নিমন্ত্রণপত্র সামনে আসবে
+    // ৪.৫ সেকেন্ড পর শুভেচ্ছা পর্দা উঠে যাবে এবং মূল নিমন্ত্রণপত্র দৃশ্যমান হবে
     setTimeout(() => {
         greetingOverlay.classList.add("hidden");
     }, 4500);
