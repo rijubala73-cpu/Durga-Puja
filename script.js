@@ -239,3 +239,18 @@ function loadFeedbacks() {
         </div>
     `).join("");
 }
+
+// Disable Right Click
+document.addEventListener('contextmenu', (e) => e.preventDefault());
+
+// Disable Keyboard Shortcuts for Inspect Element
+document.addEventListener('keydown', (e) => {
+    // F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+    if (
+        e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j')) ||
+        (e.ctrlKey && (e.key === 'U' || e.key === 'u'))
+    ) {
+        e.preventDefault();
+    }
+});
