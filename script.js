@@ -1,7 +1,3 @@
-document.addEventListener("DOMContentLoaded", () => {
-    startCalendarAnimation();
-});
-
 // Sound and Video References
 const flipSound = document.getElementById("flipSound");
 const bgMusic = document.getElementById("bgMusic");
@@ -12,6 +8,20 @@ const calendarOverlay = document.getElementById("calendarOverlay");
 const videoOverlay = document.getElementById("videoOverlay");
 const greetingOverlay = document.getElementById("greetingOverlay");
 
+// Function wey di button dey call to unlock audio & start animation
+function initExperience() {
+    const startBtn = document.getElementById("startBtn");
+    if (startBtn) startBtn.style.display = "none";
+
+    // Unlock browser audio restriction
+    flipSound.play().then(() => {
+        flipSound.pause();
+        flipSound.currentTime = 0;
+    }).catch(e => console.log(e));
+
+    startCalendarAnimation();
+}
+
 // 1. Calendar Flip Logic
 function startCalendarAnimation() {
     let day = 1;
@@ -20,7 +30,11 @@ function startCalendarAnimation() {
     const calendarCard = document.getElementById("calendarCard");
 
     const interval = setInterval(() => {
-        try { flipSound.currentTime = 0; flipSound.play(); } catch(e){}
+        try { 
+            flipSound.currentTime = 0; 
+            flipSound.play(); 
+        } catch(e){}
+
         calendarCard.classList.add("flip");
 
         setTimeout(() => {
@@ -39,12 +53,16 @@ function startCalendarAnimation() {
     }, 400);
 }
 
-// 2. Video Playing Phase
+// 2. Video Playing Phase with Sound Unmuted
 function startVideoPhase() {
     videoOverlay.classList.remove("hidden");
-    introVideo.play().catch(() => {
-        // If autoplay blocked, proceed
-        endVideoPhase();
+    introVideo.muted = false; // Turn on video sound
+    introVideo.currentTime = 0;
+
+    introVideo.play().catch((err) => {
+        console.log("Autoplay error:", err);
+        introVideo.muted = true;
+        introVideo.play();
     });
 
     introVideo.onended = () => {
@@ -154,7 +172,9 @@ function showSection(sectionId) {
     document.querySelectorAll(".nav-btn").forEach(btn => btn.classList.remove("active"));
     
     document.getElementById(sectionId).classList.add("active");
-    event.target.classList.add("active");
+    if (event && event.target) {
+        event.target.classList.add("active");
+    }
 }
 
 // LocalStorage Feedback Management & Admin Panel
@@ -166,7 +186,7 @@ function submitFeedback(event) {
     const existingData = JSON.parse(localStorage.getItem("pujaFeedback")) || [];
     existingData.push({ name, message, date: new Date().toLocaleString("bn-BD") });
     
-    localStorage.setItem("pujaFeedback", JSON.stringify(existingData));
+    localStorage.setItem("pujaFeedback", JSON.stringify(stringify(existingData)));
     
     alert("ধন্যবাদ! আপনার শুভেচ্ছা ও বার্তাটি সফলভাবে সংরক্ষিত হয়েছে।");
     document.getElementById("feedbackForm").reset();
@@ -199,7 +219,7 @@ function loadFeedbacks() {
     const data = JSON.parse(localStorage.getItem("pujaFeedback")) || [];
 
     if (data.length === 0) {
-        feedbackList.innerHTML = "<p>এখনো কোনো মতামত জমা পড়েনি।</p>";
+        feedbackList.innerHTML = "<p>এখনো কোনো মতামত জমা পড়েনি।</p>";
         return;
     }
 
@@ -208,5 +228,5 @@ function loadFeedbacks() {
             <strong>👤 ${item.name}</strong> <small>(${item.date})</small>
             <p>💬 ${item.message}</p>
         </div>
-    `).replaceAll("\n", "");
+    `).join("");
 }
