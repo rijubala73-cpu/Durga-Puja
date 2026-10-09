@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>শারদীয় দুর্গোৎসবের নিমন্ত্রণ</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Audio Elements -->
+    <audio id="flipSound" src="assets/calendar-flip.mp3" preload="auto"></audio>
+    <audio id="bgMusic" src="assets/bg-music.mp3" loop preload="auto"></audio>
+
+    <!-- Overlay Screen 1: Calendar Flip Animation -->
+    <div id="calendarOverlay" class="overlay">
+        <div class="calendar-container">
+            <div class="calendar-card" id="calendarCard">
+                <div class="calendar-month">অক্টোবর ২০২৬</div>
+                <div class="calendar-day" id="calendarDay">১</div>
+                <div class="calendar-label" id="calendarLabel">আশ্বিন - কার্তিক</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay Screen 2: Video Player -->
+    <div id="videoOverlay" class="overlay hidden">
+        <video id="introVideo" src="assets/intro-video.mp4" playsinline muted></video>
+    </div>
+
+    <!-- Overlay Screen 3: Greeting with Fireworks & Balloons -->
+    <div id="greetingOverlay" class="overlay hidden">
+        <canvas id="fireworksCanvas"></canvas>
+        <div class="balloon-container" id="balloonContainer"></div>
+        <div class="greeting-box">
+            <h1>শারদীয় দুর্গোৎসবের প্রীতি, শুভেচ্ছা ও অনেক অনেক অভিনন্দন!</h1>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar" id="mainNavbar">
+        <button class="nav-btn active" onclick="showSection('invitationSection')">আমন্ত্রণী বার্তা</button>
+        <button class="nav-btn" onclick="showSection('scheduleSection')">📅 পূজার সময়সূচী</button>
+        <button class="nav-btn" onclick="showSection('locationSection')">📍 স্থান (Location)</button>
+        <button class="nav-btn" onclick="showSection('feedbackSection')">আপনার মতামত</button>
+        <button class="nav-btn admin-link" onclick="showAdminModal()">🔑 Admin</button>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="main-content" id="mainContent">
+
+        <!-- Section 1: Invitation Letter -->
+        <section id="invitationSection" class="content-section active">
+            <div class="card invitation-card">
+                <h2>শ্রীচরণেষু শ্রদ্ধাভাজনেষু,</h2>
+                <p>
+                    আশ্বিনের হিমেল বাতাস আর কাশফুলের দোলা জানান দিচ্ছে মা দুর্গার মর্ত্যে আগমন বার্তা। উৎসবের এই আনন্দঘন মুহূর্তে আপনার মতো স্নানাতপ ও পরম স্নেহের গুরুজনের শুভ উপস্থিতি আমাদের কাছে অত্যন্ত কাম্য।
+                </p>
+                <p>
+                    আগামী শারদীয় দুর্গোৎসবে আমাদের বাড়ির পূজা প্রাঙ্গণে আপনাকে সহপরিবারে সাদর নিমন্ত্রণ জানাচ্ছি। আপনারা এসে উপস্থিত হয়ে আমাদের আশীর্বাদ করলে এবং পূজার আনন্দ ভাগ করে নিলে আমাদের আয়োজন ধন্য ও পূর্ণতা পাবে।
+                </p>
+                <p>
+                    আপনাদের চরণধূলি ও স্নেহাশিস আমাদের পুরো পরিবারকে ধন্য করবে। আশা করি অবশ্যই সপরিবারে উপস্থিত হয়ে আমাদের কৃতার্থ করবেন। আপনাদের সুস্বাস্থ্য ও দীর্ঘায়ু কামনা করি।
+                </p>
+                <div class="signature">
+                    <p><strong>প্রণামান্তে,</strong></p>
+                    <p class="name">উৎস বালা রিজু</p>
+                    <p class="address">পিঠাবাড়ী, গোপালগঞ্জ</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Schedule -->
+        <section id="scheduleSection" class="content-section">
+            <div class="card schedule-card">
+                <h2>📅 দুর্গাপুজো ২০২৬ সময়সূচী</h2>[cite: 1]
+                <div class="image-wrapper">
+                    <img src="assets/schedule.jpg" alt="পূজার সময়সূচী ২০২৬" class="schedule-img">[cite: 1]
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Location -->
+        <section id="locationSection" class="content-section">
+            <div class="card location-card">
+                <h2>📍 পূজামণ্ডপের অবস্থান</h2>
+                <p>আমাদের বাড়ির পূজা প্রাঙ্গণে আসার জন্য নিচের ম্যাপ বা বাটনে ক্লিক করুন:</p>
+                <a href="https://maps.app.goo.gl/6qyHtUkT72Wc6T3E6" target="_blank" class="map-btn">
+                    🗺️ Google Maps-এ লোকেশন দেখুন
+                </a>
+                <div class="map-container">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3678.5!2d89.8!3d22.9!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjLCsDU0JzAwLjAiTiA4OcKwNDgnMDAuMCJF!5e0!3m2!1sbn!2sbd!4v1600000000000" 
+                        width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy">
+                    </iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Feedback -->
+        <section id="feedbackSection" class="content-section">
+            <div class="card feedback-card">
+                <h2>✍️ আপনার মতামত ও উপস্থিতি নিশ্চিত করুন</h2>
+                <form id="feedbackForm" onsubmit="submitFeedback(event)">
+                    <div class="form-group">
+                        <label for="guestName">আপনার নাম *</label>
+                        <input type="text" id="guestName" required placeholder="আপনার নাম লিখুন">
+                    </div>
+                    <div class="form-group">
+                        <label for="guestMessage">আপনার বক্তব্য / বার্তা *</label>
+                        <textarea id="guestMessage" rows="4" required placeholder="আপনার শুভেচ্ছা বা বার্তা লিখুন..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">বার্তা পাঠান</button>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Admin Login & Dashboard Modal -->
+    <div id="adminModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeAdminModal()">&times;</span>
+            <div id="adminLoginArea">
+                <h2>🔑 Admin Login</h2>
+                <input type="email" id="adminEmail" placeholder="ইমেইল দিন (rijubala73@gmail.com)">
+                <button onclick="checkAdminLogin()" class="submit-btn">Login</button>
+                <p id="loginError" class="error-msg"></p>
+            </div>
+            <div id="adminDashboard" class="hidden">
+                <h2>📥 আমন্ত্রিত অতিথিদের মতামত</h2>
+                <div id="feedbackList" class="feedback-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

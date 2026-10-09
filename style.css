@@ -1,0 +1,339 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Anek Bangla', sans-serif;
+}
+
+body {
+    background-color: #2b0305;
+    background-image: radial-gradient(#630c12 1px, transparent 1px);
+    background-size: 20px 20px;
+    color: #4a0000;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Fullscreen Overlays */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #120102;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    transition: opacity 0.8s ease;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Calendar Styles */
+.calendar-card {
+    width: 280px;
+    height: 320px;
+    background: linear-gradient(135deg, #fff7e6, #ffe0b2);
+    border: 4px solid #d4af37;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+    transform-style: preserve-3d;
+    transition: transform 0.15s ease-in-out;
+}
+
+.calendar-card.flip {
+    transform: rotateY(90deg);
+}
+
+.calendar-month {
+    background: #a80f15;
+    color: #fff;
+    width: 100%;
+    padding: 8px 0;
+    border-radius: 8px;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.calendar-day {
+    font-size: 5rem;
+    font-weight: 700;
+    color: #a80f15;
+}
+
+.calendar-label {
+    font-size: 1.1rem;
+    color: #555;
+}
+
+/* Video Styling */
+#introVideo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Fireworks & Greeting */
+#fireworksCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.balloon-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.balloon {
+    position: absolute;
+    bottom: -100px;
+    width: 45px;
+    height: 60px;
+    border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+    animation: floatUp 5s linear infinite;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(-110vh) rotate(20deg); opacity: 0; }
+}
+
+.greeting-box {
+    background: rgba(168, 15, 21, 0.9);
+    border: 3px solid #d4af37;
+    padding: 30px 20px;
+    border-radius: 20px;
+    text-align: center;
+    color: #fff;
+    max-width: 90%;
+    box-shadow: 0 0 25px rgba(212, 175, 55, 0.8);
+    z-index: 10;
+    animation: pulse 2s infinite alternate;
+}
+
+.greeting-box h1 {
+    font-size: 1.8rem;
+    color: #fff7e6;
+    text-shadow: 2px 2px 4px #000;
+}
+
+@keyframes pulse {
+    0% { transform: scale(0.98); }
+    100% { transform: scale(1.02); }
+}
+
+/* Navbar */
+.navbar {
+    width: 100%;
+    background: #a80f15;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    border-bottom: 2px solid #d4af37;
+}
+
+.nav-btn {
+    background: transparent;
+    border: none;
+    color: #fff;
+    padding: 12px 18px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.nav-btn:hover, .nav-btn.active {
+    background: #7a090e;
+    color: #ffe0b2;
+}
+
+/* Main Cards */
+.main-content {
+    width: 100%;
+    max-width: 750px;
+    padding: 20px 15px;
+}
+
+.content-section {
+    display: none;
+}
+
+.content-section.active {
+    display: block;
+}
+
+.card {
+    background: #fff8eb;
+    border: 3px solid #d4af37;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    color: #3b0000;
+    line-height: 1.8;
+}
+
+.invitation-card h2 {
+    color: #a80f15;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+.invitation-card p {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    text-align: justify;
+}
+
+.signature {
+    margin-top: 25px;
+    text-align: right;
+}
+
+.signature .name {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #a80f15;
+}
+
+.signature .address {
+    font-size: 1rem;
+    color: #666;
+}
+
+/* Schedule */
+.schedule-card h2, .location-card h2, .feedback-card h2 {
+    color: #a80f15;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.schedule-img {
+    width: 100%;
+    border-radius: 12px;
+    border: 2px solid #d4af37;
+}
+
+/* Location */
+.map-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: #25d366;
+    color: #fff;
+    text-decoration: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    margin: 15px 0;
+}
+
+.map-container {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid #d4af37;
+}
+
+/* Forms */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-group input, .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.submit-btn {
+    width: 100%;
+    background: #a80f15;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Modal */
+.modal {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.8);
+    display: flex; justifyContent: center; align-items: center;
+    z-index: 2000;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 450px;
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    right: 15px; top: 10px;
+    font-size: 1.8rem;
+    cursor: pointer;
+}
+
+.error-msg {
+    color: red;
+    margin-top: 10px;
+}
+
+.feedback-item {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+.feedback-item:last-child {
+    border-bottom: none;
+}
+
+@media (max-width: 600px) {
+    .nav-btn {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+    .greeting-box h1 {
+        font-size: 1.4rem;
+    }
+}
