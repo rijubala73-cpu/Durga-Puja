@@ -8,21 +8,22 @@ const calendarOverlay = document.getElementById("calendarOverlay");
 const videoOverlay = document.getElementById("videoOverlay");
 const greetingOverlay = document.getElementById("greetingOverlay");
 
-// Function wey di button dey call to unlock audio & start animation
+// বাটন ক্লিকে সাউন্ডের পারমিশন আনলক হবে এবং সমস্ত প্রসেস শুরু হবে
 function initExperience() {
     const startBtn = document.getElementById("startBtn");
     if (startBtn) startBtn.style.display = "none";
 
-    // Unlock browser audio restriction
+    // অডিও ও ভিডিও সাউন্ড পারমিশন আনলক
     flipSound.play().then(() => {
         flipSound.pause();
         flipSound.currentTime = 0;
-    }).catch(e => console.log(e));
+    }).catch(e => console.log("Audio unlock:", e));
 
+    // ক্যালেন্ডার পাতার অ্যানিমেশন ও শব্দ চালু
     startCalendarAnimation();
 }
 
-// 1. Calendar Flip Logic
+// ১. ক্যালেন্ডার পাতার অ্যানিমেশন ও উল্টানোর শব্দ
 function startCalendarAnimation() {
     let day = 1;
     const targetDay = 10;
@@ -53,14 +54,14 @@ function startCalendarAnimation() {
     }, 400);
 }
 
-// 2. Video Playing Phase with Sound Unmuted
+// ২. ভিডিও প্লে (ভিডিওর আসল সাউন্ড সহ)
 function startVideoPhase() {
     videoOverlay.classList.remove("hidden");
-    introVideo.muted = false; // Turn on video sound
+    introVideo.muted = false; // সাউন্ড অন
     introVideo.currentTime = 0;
 
     introVideo.play().catch((err) => {
-        console.log("Autoplay error:", err);
+        console.log("Autoplay issue:", err);
         introVideo.muted = true;
         introVideo.play();
     });
@@ -75,27 +76,27 @@ function endVideoPhase() {
     startGreetingPhase();
 }
 
-// 3. Greeting, Fireworks & Music Phase
+// ৩. শুভেচ্ছা, বেলুন, আতশবাজি ও ব্যাকগ্রাউন্ড মিউজিক
 function startGreetingPhase() {
     greetingOverlay.classList.remove("hidden");
     
-    // Play Background Music
+    // ব্যাকগ্রাউন্ড গান চালু (এখন আর থামবে না)
     try {
         bgMusic.volume = 0.8;
         bgMusic.play();
     } catch(e) {}
 
-    // Trigger Effects
+    // এনিমেশনসমূহ
     createBalloons();
     initFireworks();
 
-    // Hide greeting overlay after 4.5 seconds
+    // ৪.৫ সেকেন্ড পর গ্রিটিং উঠে যাবে এবং মূল নিমন্ত্রণপত্র সামনে আসবে
     setTimeout(() => {
         greetingOverlay.classList.add("hidden");
     }, 4500);
 }
 
-// Floating Balloons
+// ভাসমান বেলুন অ্যানিমেশন
 function createBalloons() {
     const container = document.getElementById("balloonContainer");
     const colors = ["#ff4d4d", "#ffaf40", "#fffa65", "#32ff7e", "#7d5fff", "#ff4b4b"];
@@ -111,7 +112,7 @@ function createBalloons() {
     }
 }
 
-// Simple Fireworks Effect
+// আতশবাজি (Fireworks) অ্যানিমেশন
 function initFireworks() {
     const canvas = document.getElementById("fireworksCanvas");
     const ctx = canvas.getContext("2d");
@@ -137,7 +138,6 @@ function initFireworks() {
         }
     }
 
-    // Launch random bursts
     const fireInterval = setInterval(() => {
         createParticle(
             Math.random() * canvas.width,
@@ -166,18 +166,18 @@ function initFireworks() {
     setTimeout(() => clearInterval(fireInterval), 4000);
 }
 
-// Navigation Tab Switching
+// নেভিগেশন সেকশন পরিবর্তন
 function showSection(sectionId) {
     document.querySelectorAll(".content-section").forEach(sec => sec.classList.remove("active"));
     document.querySelectorAll(".nav-btn").forEach(btn => btn.classList.remove("active"));
     
     document.getElementById(sectionId).classList.add("active");
-    if (event && event.target) {
-        event.target.classList.add("active");
+    if (window.event && window.event.target) {
+        window.event.target.classList.add("active");
     }
 }
 
-// LocalStorage Feedback Management & Admin Panel
+// মতামত সেভ ও এডমিন প্যানেল
 function submitFeedback(event) {
     event.preventDefault();
     const name = document.getElementById("guestName").value;
@@ -186,7 +186,7 @@ function submitFeedback(event) {
     const existingData = JSON.parse(localStorage.getItem("pujaFeedback")) || [];
     existingData.push({ name, message, date: new Date().toLocaleString("bn-BD") });
     
-    localStorage.setItem("pujaFeedback", JSON.stringify(stringify(existingData)));
+    localStorage.setItem("pujaFeedback", JSON.stringify(existingData));
     
     alert("ধন্যবাদ! আপনার শুভেচ্ছা ও বার্তাটি সফলভাবে সংরক্ষিত হয়েছে।");
     document.getElementById("feedbackForm").reset();
