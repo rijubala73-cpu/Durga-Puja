@@ -22,7 +22,7 @@
                 <div class="calendar-label" id="calendarLabel">আশ্বিন - কার্তিক</div>
             </div>
             
-            <!-- পারমিশন অন করার বাটন -->
+            <!-- Button to unlock audio and start experience -->
             <button id="startBtn" class="submit-btn" style="margin-top: 25px; padding: 14px 28px; font-size: 1.2rem; cursor: pointer;" onclick="initExperience()">
                 🪔 আমন্ত্রণপত্র খুলতে এখানে ক্লিক করুন
             </button>
@@ -32,6 +32,8 @@
     <!-- Overlay Screen 2: Video Player -->
     <div id="videoOverlay" class="overlay hidden">
         <video id="introVideo" src="intro-video.mp4" playsinline></video>
+        <!-- Waiting badge during video -->
+        <div class="video-wait-text" id="videoWaitText">অপেক্ষা করো...</div>
     </div>
 
     <!-- Overlay Screen 3: Greeting with Fireworks & Balloons -->
