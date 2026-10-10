@@ -8,29 +8,24 @@ const calendarOverlay = document.getElementById("calendarOverlay");
 const videoOverlay = document.getElementById("videoOverlay");
 const greetingOverlay = document.getElementById("greetingOverlay");
 
-// পেজ লোড হলে স্বয়ংক্রিয়ভাবে কিছুই শুরু হবে না
-document.addEventListener("DOMContentLoaded", () => {
-    // শুধুমাত্র ইউজারের বাটন ক্লিকে সব শুরু হবে
-});
-
-// "আমন্ত্রণপত্র খুলতে ক্লিক করুন" বাটনে চাপ দিলে এই ফাংশনটি কল হবে
+// Triggered ONLY when "আমন্ত্রণপত্র খুলতে এখানে ক্লিক করুন" button is clicked
 function initExperience() {
     const startBtn = document.getElementById("startBtn");
     if (startBtn) {
-        startBtn.style.display = "none"; // বাটনটি লুকিয়ে ফেলা হলো
+        startBtn.style.display = "none";
     }
 
-    // ১. সাউন্ড ও ভিডিও প্লে করার অনুমতি (User Gesture unlock)
+    // Unlock browser audio permission
     flipSound.play().then(() => {
         flipSound.pause();
         flipSound.currentTime = 0;
-    }).catch(e => console.log("Audio permission unlocked"));
+    }).catch(e => console.log("Audio unlocked"));
 
-    // ২. এবার ক্যালেন্ডারের পাতা উল্টানো এবং সাউন্ড শুরু হবে
+    // Start calendar leaf flipping animation
     startCalendarAnimation();
 }
 
-// ১. ক্যালেন্ডার পাতার অ্যানিমেশন ও উল্টানোর শব্দ (১ থেকে ১০ অক্টোবর)
+// 1. Calendar Flip Animation (1 to 10 October 2026)
 function startCalendarAnimation() {
     let day = 1;
     const targetDay = 10;
@@ -50,7 +45,6 @@ function startCalendarAnimation() {
             calendarDayEl.textContent = day;
             calendarCard.classList.remove("flip");
 
-            // ১০ তারিখে পৌছালে ক্যালেন্ডার বন্ধ হয়ে ভিডিও শুরু হবে
             if (day >= targetDay) {
                 clearInterval(interval);
                 setTimeout(() => {
@@ -62,50 +56,51 @@ function startCalendarAnimation() {
     }, 400);
 }
 
-// ২. ভিডিও প্লে (ভিডিওর নিজস্ব সাউন্ড সহ)
+// 2. Video Playing Phase with Original Sound
 function startVideoPhase() {
     videoOverlay.classList.remove("hidden");
-    introVideo.muted = false; // ভিডিওর সাউন্ড চালু
+    introVideo.muted = false; // Video sound unmuted
     introVideo.currentTime = 0;
 
     introVideo.play().catch((err) => {
-        console.log("Autoplay blocked, running muted:", err);
+        console.log("Autoplay fallback:", err);
         introVideo.muted = true;
         introVideo.play();
     });
 
-    // ভিডিও শেষ হলে পরবর্তী ধাপে যাবে
     introVideo.onended = () => {
         endVideoPhase();
     };
 }
 
 function endVideoPhase() {
+    const waitText = document.getElementById("videoWaitText");
+    if (waitText) waitText.style.display = "none";
+
     videoOverlay.classList.add("hidden");
     startGreetingPhase();
 }
 
-// ৩. শুভেচ্ছা বার্তা, বেলুন, আতশবাজি ও ব্যাকগ্রাউন্ড মিউজিক
+// 3. Greeting, Balloons, Fireworks & Background Music Phase
 function startGreetingPhase() {
     greetingOverlay.classList.remove("hidden");
     
-    // ব্যাকগ্রাউন্ড মিউজিক চালু (যা আর থামবে না)
+    // Play Background Music (looping forever)
     try {
         bgMusic.volume = 0.8;
         bgMusic.play();
     } catch(e) {}
 
-    // আতশবাজি ও বেলুন এনিমেশন
     createBalloons();
     initFireworks();
 
-    // ৪.৫ সেকেন্ড পর শুভেচ্ছা পর্দা উঠে যাবে এবং মূল নিমন্ত্রণপত্র দৃশ্যমান হবে
+    // Hide greeting overlay after 4.5 seconds to reveal invitation letter
     setTimeout(() => {
         greetingOverlay.classList.add("hidden");
     }, 4500);
 }
 
-// ভাসমান বেলুন অ্যানিমেশন
+// Floating Balloons Effect
 function createBalloons() {
     const container = document.getElementById("balloonContainer");
     const colors = ["#ff4d4d", "#ffaf40", "#fffa65", "#32ff7e", "#7d5fff", "#ff4b4b"];
@@ -121,7 +116,7 @@ function createBalloons() {
     }
 }
 
-// আতশবাজি (Fireworks) অ্যানিমেশন
+// Fireworks Effect
 function initFireworks() {
     const canvas = document.getElementById("fireworksCanvas");
     const ctx = canvas.getContext("2d");
@@ -175,7 +170,7 @@ function initFireworks() {
     setTimeout(() => clearInterval(fireInterval), 4000);
 }
 
-// নেভিগেশন সেকশন পরিবর্তন
+// Navigation Tab Switching
 function showSection(sectionId) {
     document.querySelectorAll(".content-section").forEach(sec => sec.classList.remove("active"));
     document.querySelectorAll(".nav-btn").forEach(btn => btn.classList.remove("active"));
@@ -186,7 +181,7 @@ function showSection(sectionId) {
     }
 }
 
-// মতামত সেভ ও এডমিন প্যানেল
+// Feedback Local Storage Submission
 function submitFeedback(event) {
     event.preventDefault();
     const name = document.getElementById("guestName").value;
@@ -201,6 +196,7 @@ function submitFeedback(event) {
     document.getElementById("feedbackForm").reset();
 }
 
+// Admin Modal & Dashboard
 function showAdminModal() {
     document.getElementById("adminModal").classList.remove("hidden");
 }
@@ -240,12 +236,10 @@ function loadFeedbacks() {
     `).join("");
 }
 
-// Disable Right Click
+// Security: Disable Right Click & Inspect Element Shortcuts
 document.addEventListener('contextmenu', (e) => e.preventDefault());
 
-// Disable Keyboard Shortcuts for Inspect Element
 document.addEventListener('keydown', (e) => {
-    // F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
     if (
         e.key === 'F12' ||
         (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j')) ||
