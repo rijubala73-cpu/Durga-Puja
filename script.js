@@ -196,7 +196,7 @@ function submitFeedback(event) {
     document.getElementById("feedbackForm").reset();
 }
 
-// Admin Modal & Dashboard
+// Admin Modal & Dashboard Login Logic
 function showAdminModal() {
     document.getElementById("adminModal").classList.remove("hidden");
 }
@@ -207,15 +207,17 @@ function closeAdminModal() {
 
 function checkAdminLogin() {
     const email = document.getElementById("adminEmail").value;
+    const password = document.getElementById("adminPassword").value;
     const error = document.getElementById("loginError");
     
-    if (email.trim().toLowerCase() === "rijubala73@gmail.com") {
+    // Email and Password Verification
+    if (email.trim().toLowerCase() === "rijubala73@gmail.com" && password === "54ljugeGGf") {
         error.textContent = "";
         document.getElementById("adminLoginArea").classList.add("hidden");
         document.getElementById("adminDashboard").classList.remove("hidden");
         loadFeedbacks();
     } else {
-        error.textContent = "ভুল ইমেইল! শুধুমাত্র অনুমোদিত এডমিন লগইন করতে পারবেন।";
+        error.textContent = "ভুল ইমেইল অথবা পাসওয়ার্ড! সঠিক তথ্য দিয়ে চেষ্টা করুন।";
     }
 }
 
