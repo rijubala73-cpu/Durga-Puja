@@ -131,8 +131,11 @@
             <span class="close-btn" onclick="closeAdminModal()">&times;</span>
             <div id="adminLoginArea">
                 <h2>🔑 Admin Login</h2>
-                <input type="email" id="adminEmail" placeholder="ইমেইল দিন (rijubala73@gmail.com)">
-                <button onclick="checkAdminLogin()" class="submit-btn">Login</button>
+                <div class="form-group" style="margin-top: 15px;">
+                    <input type="email" id="adminEmail" placeholder="ইমেইল (rijubala73@gmail.com)" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 8px;">
+                    <input type="password" id="adminPassword" placeholder="পাসওয়ার্ড দিন" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px;">
+                </div>
+                <button onclick="checkAdminLogin()" class="submit-btn" style="margin-top: 10px;">Login</button>
                 <p id="loginError" class="error-msg"></p>
             </div>
             <div id="adminDashboard" class="hidden">
