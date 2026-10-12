@@ -106,23 +106,23 @@
         </section>
 
         <!-- Section 4: Feedback -->
+        <!-- Section 4: Feedback -->
         <section id="feedbackSection" class="content-section">
             <div class="card feedback-card">
                 <h2>✍️ আপনার মতামত ও উপস্থিতি নিশ্চিত করুন</h2>
-                <form id="feedbackForm" onsubmit="submitFeedback(event)">
+                <form id="feedbackForm" action="https://formspree.io/f/mjygolkr" method="POST">
                     <div class="form-group">
                         <label for="guestName">আপনার নাম *</label>
-                        <input type="text" id="guestName" required placeholder="আপনার নাম লিখুন">
+                        <input type="text" name="guestName" id="guestName" required placeholder="আপনার নাম লিখুন">
                     </div>
                     <div class="form-group">
                         <label for="guestMessage">আপনার বক্তব্য / বার্তা *</label>
-                        <textarea id="guestMessage" rows="4" required placeholder="আপনার শুভেচ্ছা বা বার্তা লিখুন..."></textarea>
+                        <textarea name="guestMessage" id="guestMessage" rows="4" required placeholder="আপনার শুভেচ্ছা বা বার্তা লিখুন..."></textarea>
                     </div>
                     <button type="submit" class="submit-btn">বার্তা পাঠান</button>
                 </form>
             </div>
         </section>
-
     </main>
 
     <!-- Admin Login & Dashboard Modal -->
